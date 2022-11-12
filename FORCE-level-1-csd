@@ -1,0 +1,36 @@
+Bash-code (Linux terminal) to use FORCE software 
+
+Finding 2021 imagery for my analysis:
+
+
+
+force-level1-csd -n -c 0,50 -d 20210315,20211115 -s S2A,S2B {your directory}/metadata_catalogue {your directory}/2021/level-1-datapool {your directory}/2021/queue.txt {your directory}/shapefiles/tile_list_deu3.csv
+
+
+
+With this code you can run FORCE with the selected parameters. Here is what they mean:
+
+force-level1-csd calls the submodule from FORCE. Of course, FORCE needs to be installed on your system.
+
+-n indicates that you do not want to actually download the data just yet. Once you found which data you want to download, remove the "-n".
+
+-c 0,50 indicates that you want to find imagery that has a cloud coverage of 0 to 50%. Any tile of satellite imagery with more than 50% cloud coverage will not be found (even if it contains 50% perfectly useful data).
+
+-d 20210315,20211115 indicates that you want to find imagery within the timeframe of 15th March 2021 and 15th November 2021. My analysis would always use imagery within this timeframe for each year. So for e.g. 2020 it would be "-d 20200315,20201115" instead.
+
+-s S2A,S2B indicates that you want only imagery from the Sentinel-2 missions. FORCE level-1 may also download Landsat data, but we ommitted that here.
+
+For the following be advised: {your directory} refers to whichever path you set as the path where FORCE data will be stored. On a regular Linux system it could be
+anything like /home/john/FORCE/..... You decide. What comes after {your directory} is my advised path structure, but you may as well adjust it to your personal
+preferences.
+
+{your directory}/metadata_catalogue points the FORCE module to where the metadata catalogue with Sentinel-2 metadata (and maybe Landsat-data) is located.
+This catalogue must have been set-up during the installation of FORCE. If you don't have it, refer back to the FORCE documentation.
+
+{your directory}/2021/level-1-datapool points to where the data requested will be downloaded to. If you have "-n" in the command as above, FORCE will not 
+download anything there. Regardless, the folder has to exist so make sure you created it beforehand. Once you remove the "-n", data will be downloaded into this folder.
+
+{your directory}/2021/queue.txt points to the file queue, where all downloaded satellite imagery tiles' names will be stored for later use in FORCE Level 2.
+Same as above, with "-n" in place, nothing will be written to queue.txt, but the file has to exist, so make sure you create an empty queue.txt first.
+
+{your directory}/shapefiles/tile_list.csv points to a file that contains a list of the tile names in the internal format of the Sentinel-2 mission. .
